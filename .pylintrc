@@ -428,3 +428,4 @@ valid-metaclass-classmethod-first-arg=mcs
 overgeneral-exceptions=StandardError,
                        Exception,
                        BaseException
+

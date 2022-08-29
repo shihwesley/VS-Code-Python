@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class Order:
     '''
     a class for orders
@@ -20,14 +21,18 @@ class Order:
             total += self.quantities[i] + self.prices[i]
         return total
 
+
 class Authorizer(ABC):
     '''an abstract class for authorizer'''
+
     @abstractmethod
     def is_authorized(self) -> bool:
         pass
 
+
 class SMSAuthorizer(Authorizer):
     '''A class for sms authorizing'''
+
     def __init__(self):
         self.authorized = False
 
@@ -38,8 +43,10 @@ class SMSAuthorizer(Authorizer):
     def is_authorized(self) -> bool:
         return self.authorized
 
+
 class NotARobot(Authorizer):
     '''a class for checking if you are a robot or not'''
+
     def __init__(self):
         self.authorized = False
 
@@ -65,12 +72,15 @@ class PaymentProcessor(ABC):
        don't want a general interface, split it up, use compositions better too
     5. Dependency Inversion
     '''
+
     @abstractmethod
     def pay(self, orders):
         pass
 
+
 class DebitpaymentProcessor(PaymentProcessor):
     '''a sub paymentprocess class for debit'''
+
     def __init__(self, security_code, authorizr: Authorizer):
         self.security_code = security_code
         self.authorizer = authorizr
@@ -83,8 +93,10 @@ class DebitpaymentProcessor(PaymentProcessor):
         orders.status = 'Paid'
         print(f'Order Status: {orders.status}')
 
+
 class CreditPaymentProcessor(PaymentProcessor):
     '''a sub paymentprocess class for credit'''
+
     def __init__(self, security_code):
         self.security_code = security_code
 
@@ -94,8 +106,10 @@ class CreditPaymentProcessor(PaymentProcessor):
         orders.status = 'Paid'
         print(f'Order Status: {orders.status}')
 
+
 class PaypalPaymentProcessor(PaymentProcessor):
     '''a sub paymentprocess class for Paypal'''
+
     def __init__(self, email_address, authorizr: Authorizer):
         self.email_address = email_address
         self.authorizer = authorizr
@@ -108,6 +122,7 @@ class PaypalPaymentProcessor(PaymentProcessor):
         orders.status = 'Paid'
         print(f'Order Status: {orders.status}')
 
+
 order = Order()
 order.add_items('Keyboard', 1, 50)
 order.add_items('SSD', 1, 150)
@@ -118,5 +133,3 @@ authorizer = NotARobot()
 authorizer.not_a_robot()
 processor = PaypalPaymentProcessor('wesley.shih@sjsu.edu', authorizer)
 processor.pay(order)
-
-
