@@ -1,6 +1,6 @@
 # function to search for pokemon
 
-import requests
+#import requests
 
 
 def search_pokemon(pokemon_name):
